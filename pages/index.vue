@@ -1,53 +1,64 @@
 <template>
   <section class="container">
-    <div>
+    <!-- <div> -->
       <Navigation/>
       <Fabric />
       <div class="overlay">
         <h1>Agricola + Marquez</h1>
-        <p>00.00.00
-          <br>
-          Rosemary Beach, FL</p>
+        <p>Rosemary Beach, FL
+          <br>February 2018
+        </p>
       </div>
-      <!-- <div :class="['network',online ? 'online' : 'offline']">
+      <transition name="fade">
+      <div v-if="networkStatus" class="network--status" :class="['network',online ? 'online' : 'offline']">
+        <span class="online--offline">
+          {{ online ? 'online' : 'offline' }}
+        </span>
         <div class="circle"></div>
-        {{ online ? 'online' : 'offline' }}
-      </div> -->
-    </div>
+      </div>
+    </transition>
+    <!-- </div> -->
   </section>
 </template>
 
 <script>
-import Logo from "~/components/Logo.vue";
-import Blob from "~/components/Blob.vue";
-import Navigation from "~/components/Navigation.vue";
-import Fabric from "~/components/Fabric.vue";
+import Logo from '~/components/Logo.vue';
+import Navigation from '~/components/Navigation.vue';
+import Fabric from '~/components/Fabric.vue';
 
 export default {
-	components: { Logo, Blob, Navigation, Fabric },
-	data() {
-		return {
-			online: true
-		};
-	},
-	mounted() {
-		if (!window.navigator) {
-			this.online = false;
-			return;
-		}
-		this.online = Boolean(window.navigator.onLine);
-		window.addEventListener("offline", this._toggleNetworkStatus);
-		window.addEventListener("online", this._toggleNetworkStatus);
-	},
-	methods: {
-		_toggleNetworkStatus({ type }) {
-			this.online = type === "online";
-		}
-	},
-	destroyed() {
-		window.removeEventListener("offline", this._toggleNetworkStatus);
-		window.removeEventListener("online", this._toggleNetworkStatus);
-	}
+  components: { Logo, Navigation, Fabric },
+  data() {
+    return {
+      online: true,
+      networkStatus: false
+    };
+  },
+  created() {
+    //do something after creating vue instance
+    setTimeout(x => {
+      this.networkStatus = true;
+    }, 1000);
+  },
+  mounted() {
+    // this.networkStatus = true;
+    if (!window.navigator) {
+      this.online = false;
+      return;
+    }
+    this.online = Boolean(window.navigator.onLine);
+    window.addEventListener('offline', this._toggleNetworkStatus);
+    window.addEventListener('online', this._toggleNetworkStatus);
+  },
+  methods: {
+    _toggleNetworkStatus({ type }) {
+      this.online = type === 'online';
+    }
+  },
+  destroyed() {
+    window.removeEventListener('offline', this._toggleNetworkStatus);
+    window.removeEventListener('online', this._toggleNetworkStatus);
+  }
 };
 </script>
 
@@ -60,7 +71,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
   margin-bottom: 2rem;
   font-weight: 300; }
-h1 { font-size: 4.0rem; line-height: 1.2;  letter-spacing: -.1rem;}
+h1 { font-size: 4.0rem; line-height: 1;  letter-spacing: -.1rem;}
 h2 { font-size: 3.6rem; line-height: 1.25; letter-spacing: -.1rem; }
 h3 { font-size: 3.0rem; line-height: 1.3;  letter-spacing: -.1rem; }
 h4 { font-size: 2.4rem; line-height: 1.35; letter-spacing: -.08rem; }
@@ -91,19 +102,37 @@ p {
     position: relative;
   }
 
+  .network--status {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    z-index: 999999;
+    display: flex;
+    flex-flow: row;
+    align-items: flex-end;
+    justify-content: flex-end;
+    max-width: 100%;
+  }
+
+.network--status {
+  .online--offline { opacity: 0; transition: 1s opacity ease; }
+  &:hover {
+    .online--offline { opacity: 1; transition: 1s opacity ease; }
+  }
+}
+
   .overlay {
     position: absolute;
-    top: 50%;
+    top: 60%;
     left: 50%;
     z-index: 1;
     transform: translate(-50%, -50%);
     text-align: center;
-
   }
 
   html {
     font-family: 'Playfair Display', serif;
-
     color: #00233E;
   }
 
@@ -151,18 +180,20 @@ body {
   .network {
     font-weight: 400;
     font-size: 1rem;
+    text-align: right;
   }
 
   .network .circle {
     display: inline-block;
-    width: 1rem;
-    height: 1rem;
-    background: green;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: #4caf50;
     padding: .1rem .5rem;
     border-radius: 1rem;
+    margin-left: 0.5rem;
   }
 
   .network.offline .circle {
-    background: red;
+    background: #f44336;
   }
 </style>

@@ -3,35 +3,35 @@
       <ul class="navigation--list">
         <li class="navigation--item">
           <span class="underlined--link">
-            <a href="tel:410.000.0000" class="nav--link">
+            <a href="#" class="nav--link">
                 Us
             </a>
           </span>
         </li>
         <li class="navigation--item">
           <span class="underlined--link">
-            <a href="tel:410.000.0000" class="nav--link">
+            <a href="#" class="nav--link">
               When + Where
             </a>
           </span>
         </li>
         <li class="navigation--item">
           <span class="underlined--link">
-            <a href="tel:410.000.0000" class="nav--link">
+            <a href="#" class="nav--link">
               Accommodations
             </a>
           </span>
         </li>
         <li class="navigation--item">
           <span class="underlined--link">
-            <a href="tel:410.000.0000" class="nav--link">
+            <a href="#" class="nav--link">
               Registry
             </a>
           </span>
         </li>
         <li class="navigation--item">
           <span class="underlined--link">
-            <a href="tel:410.000.0000" class="nav--link">
+            <a href="#" class="nav--link">
               RSVP
             </a>
           </span>

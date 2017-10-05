@@ -1,7 +1,6 @@
 <template>
   <div class="fabric">
     <canvas id="c"></canvas>
-
   </div>
 </template>
 
@@ -16,217 +15,96 @@ bottom:0;
 // z-index: -1;
 }
 
+.fabric {
+  // border: 10px solid red;
+}
+
 
 </style>
 
 <script>
 export default {
-	data() {
-		return {
-			data: true
-		};
-	},
-	computed: {},
-	mounted() {
-		// var canvas = new fabric.Canvas("c");
+  data() {
+    return {
+      data: true
+    };
+  },
+  computed: {},
+  beforeDestroy() {
+    window.removeEventListener('resize', this.resizeCanvas(canvas), false);
+    document.removeEventListener('load', this.resizeCanvas(canvas), false);
+  },
+  mounted() {
+    const canvas = new fabric.Canvas('c');
+    this.getRandomArbitrary(0, 300);
+    this.resizeCanvas(canvas);
 
-		// create a rectangle object
-		// var rect = new fabric.Rect({
-		// 	left: 100,
-		// 	top: 100,
-		// 	fill: "red",
-		// 	width: 20,
-		// 	height: 20
-		// });
+    window.addEventListener('resize', this.resizeCanvas(canvas), false);
+    document.addEventListener('load', this.resizeCanvas(canvas), false);
 
-		// "add" rectangle onto canvas
-		// canvas.add(rect);
+    fabric.Object.prototype.transparentCorners = true;
 
-		function getRandomArbitrary(min, max) {
-			return Math.random() * (max - min) + min;
-		}
+    fabric.Image.fromURL('/shell.png', img => {
+      canvas.add(
+        img
+          .set({
+            top: this.getRandomArbitrary(0, window.innerHeight),
+            left: this.getRandomArbitrary(0, window.innerWidth),
+            angle: 75
+          })
+          .scale(0.7)
+      );
+    });
 
-		getRandomArbitrary(0, 300);
-		(function() {
-			function add() {
-				var red = new fabric.Rect({
-					top: 100,
-					left: 0,
-					width: 80,
-					height: 50,
-					fill: "#00233E"
-				});
-				var blue = new fabric.Rect({
-					top: 0,
-					left: 100,
-					width: 100,
-					height: 70,
-					fill: "#00233E"
-				});
-				var green = new fabric.Rect({
-					top: 100,
-					left: 100,
-					width: 60,
-					height: 60,
-					fill: "#00233E"
-				});
-				canvas.add(red, blue, green);
-			}
+    fabric.Image.fromURL('/sand.png', img => {
+      canvas.add(
+        img
+          .set({
+            top: this.getRandomArbitrary(0, window.innerHeight),
+            left: this.getRandomArbitrary(0, window.innerWidth),
+            angle: 30
+          })
+          .scale(0.5)
+      );
+    });
 
-			var $ = function(id) {
-				return new fabric.Canvas("c");
-			};
+    fabric.Image.fromURL('/water.png', img => {
+      canvas.add(
+        img
+          .set({
+            top: this.getRandomArbitrary(0, window.innerHeight),
+            left: this.getRandomArbitrary(0, window.innerWidth),
+            angle: 30
+          })
+          .scale(0.6)
+      );
+    });
 
-			var canvas = new fabric.Canvas("c");
+    fabric.Image.fromURL('/watermelon.png', img => {
+      canvas.add(
+        img
+          .set({
+            top: this.getRandomArbitrary(0, window.innerHeight),
+            left: this.getRandomArbitrary(0, window.innerWidth),
+            angle: 110
+          })
+          .scale(0.25)
+      );
+    });
 
-			window.addEventListener("resize", resizeCanvas, false);
-			function resizeCanvas() {
-				canvas.setHeight(window.innerHeight);
-				canvas.setWidth(window.innerWidth);
-				canvas.renderAll();
-			}
-
-			// resize on init
-			resizeCanvas();
-
-			var red = new fabric.Rect({
-				top: getRandomArbitrary(0, window.innerHeight),
-				left: getRandomArbitrary(0, window.innerWidth),
-				width: getRandomArbitrary(0, window.innerWidth / 4),
-				height: getRandomArbitrary(0, window.innerWidth / 2),
-				fill: "#00233E"
-			});
-			var blue = new fabric.Rect({
-				top: getRandomArbitrary(0, window.innerHeight),
-				left: getRandomArbitrary(0, window.innerWidth),
-				width: getRandomArbitrary(0, window.innerWidth / 4),
-				height: getRandomArbitrary(0, window.innerWidth / 2),
-				fill: "#00233E"
-			});
-			var green = new fabric.Rect({
-				top: getRandomArbitrary(0, window.innerHeight),
-				left: getRandomArbitrary(0, window.innerWidth),
-				width: getRandomArbitrary(0, window.innerWidth / 4),
-				height: getRandomArbitrary(0, window.innerWidth / 2),
-				fill: "#00233E"
-			});
-			var black = new fabric.Rect({
-				top: getRandomArbitrary(0, window.innerHeight),
-				left: getRandomArbitrary(0, window.innerHeight),
-				width: getRandomArbitrary(0, window.innerWidth / 4),
-				height: getRandomArbitrary(0, window.innerWidth / 2),
-				fill: "#00233E"
-			});
-			var circleOne = new fabric.Circle({
-				top: 140,
-				left: 230,
-				radius: 75,
-				fill: "#00233E"
-			});
-			var circleTwo = new fabric.Circle({
-				top: 140,
-				left: 230,
-				radius: 75,
-				fill: "#00233E"
-			});
-
-			fabric.Object.prototype.transparentCorners = true;
-
-			fabric.Image.fromURL("/shell.png", function(img) {
-				canvas.add(
-					img
-						.set({
-							top: getRandomArbitrary(0, window.innerHeight),
-							left: getRandomArbitrary(0, window.innerWidth),
-							angle: 75
-						})
-						.scale(0.7)
-				);
-			});
-
-			fabric.Image.fromURL("/sand.png", function(img) {
-				canvas.add(
-					img
-						.set({
-							top: getRandomArbitrary(0, window.innerHeight),
-							left: getRandomArbitrary(0, window.innerWidth),
-							angle: 30
-						})
-						.scale(0.5)
-				);
-			});
-
-			fabric.Image.fromURL("/water.png", function(img) {
-				canvas.add(
-					img
-						.set({
-							top: getRandomArbitrary(0, window.innerHeight),
-							left: getRandomArbitrary(0, window.innerWidth),
-							angle: 30
-						})
-						.scale(0.6)
-				);
-			});
-
-			fabric.Image.fromURL("/watermelon.png", function(img) {
-				canvas.add(
-					img
-						.set({
-							top: getRandomArbitrary(0, window.innerHeight),
-							left: getRandomArbitrary(0, window.innerWidth),
-							angle: 110
-						})
-						.scale(0.25)
-				);
-			});
-
-			// canvas.add(red, blue, green, black, circleOne, circleTwo);
-			var group = $("group"),
-				ungroup = $("ungroup"),
-				multiselect = $("multiselect"),
-				addmore = $("addmore"),
-				discard = $("discard");
-
-			addmore.onclick = add;
-
-			multiselect.onclick = function() {
-				canvas.discardActiveObject();
-				var sel = new fabric.ActiveSelection(canvas.getObjects(), {
-					canvas: canvas
-				});
-				canvas.setActiveObject(sel);
-				canvas.requestRenderAll();
-			};
-
-			group.onclick = function() {
-				if (!canvas.getActiveObject()) {
-					return;
-				}
-				if (canvas.getActiveObject().type !== "activeSelection") {
-					return;
-				}
-				canvas.getActiveObject().toGroup();
-				canvas.requestRenderAll();
-			};
-
-			ungroup.onclick = function() {
-				if (!canvas.getActiveObject()) {
-					return;
-				}
-				if (canvas.getActiveObject().type !== "group") {
-					return;
-				}
-				canvas.getActiveObject().toActiveSelection();
-				canvas.requestRenderAll();
-			};
-
-			discard.onclick = function() {
-				canvas.discardActiveObject();
-				canvas.requestRenderAll();
-			};
-		})();
-	},
-	methods: {},
-	destroyed() {}
+    this.$nextTick(x => {
+      this.resizeCanvas(canvas);
+    });
+  },
+  methods: {
+    getRandomArbitrary(min, max) {
+      return Math.random() * (max - min) + min;
+    },
+    resizeCanvas(canvas) {
+      canvas.setHeight(window.innerHeight);
+      canvas.setWidth(window.innerWidth);
+      canvas.renderAll();
+    }
+  }
 };
 </script>
